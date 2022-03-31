@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import { useAuth0 } from '@auth0/auth0-react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import AddUser from './component/nav/add-user/AddUser';
+import Nav from './component/nav/Nav';
+import ProductList from './component/nav/product-list/ProductList';
+import Product from './component/nav/product/Product';
+import UserList from './component/nav/user-list/UserList';
+import Login from './Login';
 
 function App() {
+  const {user} = useAuth0()
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!user?<Login/>:   
+      <BrowserRouter>
+         <Nav/>
+         <Routes>
+            <Route path='/' element={<AddUser/>}></Route>
+            <Route path='/user-list' element={<UserList/>}></Route>
+            <Route path='/product' element={<Product/>}></Route>
+            <Route path='/product-list' element={<ProductList/>}></Route>
+         </Routes>
+      </BrowserRouter>}
+   
     </div>
   );
 }
